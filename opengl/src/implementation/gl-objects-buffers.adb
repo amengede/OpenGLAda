@@ -121,15 +121,9 @@ package body GL.Objects.Buffers is
    procedure Draw_Elements (Mode : Connection_Mode; Count : Types.Size;
                             Index_Type : Unsigned_Numeric_Type;
                             Element_Offset : Natural := 0) is
-      Element_Bytes : Natural;
    begin
-      case Index_Type is
-         when UByte_Type => Element_Bytes := 1;
-         when UShort_Type => Element_Bytes := 2;
-         when UInt_Type => Element_Bytes := 4;
-      end case;
       API.Draw_Elements (Mode, Count, Index_Type,
-                         Low_Level.IntPtr (Element_Bytes * Element_Offset));
+                         Low_Level.IntPtr (Element_Offset));
       Raise_Exception_On_OpenGL_Error;
    end Draw_Elements;
 
@@ -138,11 +132,9 @@ package body GL.Objects.Buffers is
                                       Index_Type     : Unsigned_Numeric_Type;
                                       Element_Offset : UInt := 0;
                                       Instance_Count : UInt := 0) is
-      Element_Bytes : constant array (Unsigned_Numeric_Type) of UInt :=
-        (UByte_Type => 1, UShort_Type => 2, UInt_Type => 4);
    begin
       API.Draw_Elements_Instanced (Mode, Int (Count), Index_Type,
-                Low_Level.IntPtr (Element_Bytes (Index_Type) * Element_Offset),
+                Low_Level.IntPtr (Element_Offset),
                 Int (Instance_Count));
       Raise_Exception_On_OpenGL_Error;
    end Draw_Elements_Instanced;
@@ -152,15 +144,9 @@ package body GL.Objects.Buffers is
                                         Index_Type     : Unsigned_Numeric_Type;
                                         Element_Offset : UInt;
                                         Base_Vertex    : Int) is
-      Element_Bytes : UInt;
    begin
-      case Index_Type is
-         when UByte_Type => Element_Bytes := 1;
-         when UShort_Type => Element_Bytes := 2;
-         when UInt_Type => Element_Bytes := 4;
-      end case;
       API.Draw_Elements_Base_Vertex (Mode, Count, Index_Type,
-                                     UInt (Low_Level.IntPtr (Element_Bytes * Element_Offset)), Base_Vertex);
+                                     UInt (Low_Level.IntPtr (Element_Offset)), Base_Vertex);
       Raise_Exception_On_OpenGL_Error;
    end Draw_Elements_Base_Vertex;
 
