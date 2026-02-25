@@ -10,7 +10,24 @@ with GL.API;
 with GL.Enums;
 
 package body GL.Objects.Buffers is
-   use type Low_Level.Enums.Buffer_Kind;
+  use type Low_Level.Enums.Buffer_Kind;
+
+  procedure Allocate (Target : Buffer_Target;
+                      Number_Of_Bytes : Long;
+                      Flags  : Storage_Usage_Bits) is
+    Actual_Flags : Low_Level.Bitfield := Flags.Map_Read
+                                         + Flags.Map_Write * 2
+                                         + Flags.Map_Persistent * 64
+                                         + Flags.Map_Coherent * 128
+                                         + Flags.Dynamic_Storage * 256
+                                         + Flags.Client_Storage * 512;
+  begin
+    API.Buffer_Storage (Target.Kind,
+                        Low_Level.SizeIPtr (Number_Of_Bytes),
+                        System.Null_Address,
+                        Actual_Flags);
+    Raise_Exception_On_OpenGL_Error;
+  end Allocate;
 
    package Buffer_Maps is new Ada.Containers.Indefinite_Ordered_Maps
       (Key_Type     => Low_Level.Enums.Buffer_Kind,

@@ -14,6 +14,15 @@ package GL.Objects.Buffers is
                          Static_Draw, Static_Read, Static_Copy,
                          Dynamic_Draw, Dynamic_Read, Dynamic_Copy);
 
+   type Storage_Usage_Bits is record
+     Map_Read           : Boolean := False; -- 1
+     Map_Write          : Boolean := False; -- 2
+     Map_Persistent     : Boolean := False; -- 64
+     Map_Coherent       : Boolean := False; -- 128
+     Dynamic_Storage    : Boolean := False; -- 256
+     Client_Storage     : Boolean := False; -- 512
+   end record;
+
    type Map_Bits is record
       Read              : Boolean := False;
       Write             : Boolean := False;
@@ -28,6 +37,11 @@ package GL.Objects.Buffers is
    pragma Convention (C, Map_Bits);
 
    type Buffer_Target (<>) is tagged limited private;
+
+   -- Allocate general storage for a buffer
+   procedure Allocate (Target : Buffer_Target;
+                       Number_Of_Bytes : Long;
+                       Flags  : Storage_Usage_Bits);
 
    type Buffer is new GL_Object with private;
    type Transform_Buffer is new GL_Object with private;

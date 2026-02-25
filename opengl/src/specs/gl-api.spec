@@ -881,6 +881,12 @@ spec GL.API is
      Dynamic => "glBufferData",
      Wrapper => "GL.Objects.Buffers.Load_To_Buffer",
      Wrapper => "GL.Objects.Buffers.Allocate";
+   procedure Buffer_Storage
+     (Target : Low_Level.Enums.Buffer_Kind;
+      Size : Low_Level.SizeIPtr; Data : System.Address;
+      Flags : Low_Level.Bitfield) with
+     Dynamic => "glBufferStorage",
+     Wrapper => "GL.Objects.Buffers.Allocate";
    procedure Texture_Buffer_Data
     (Target : Low_Level.Enums.Buffer_Kind;
     Internal_Format : Pixels.Internal_Format; Buffer : UInt) with
