@@ -1,10 +1,9 @@
 # OpenGLAda – OpenGL binding for Ada
 
-**Project Status:** I do not have the time and energy to maintain this project anymore.
-Both this project and the corresponding Alire crates are unmaintained.
-I would be okay with someone taking over the project, feel free to [contact me](https://flyx.org) about it.
-
 ## Overview
+
+This is my (Andrew Mengede's) fork of Flyx (Felix Krause's) OpenGL Ada binding. Most of the Is below refer
+to Flyx.
 
 **OpenGLAda** is a thick OpenGL binding for the Ada 2005 programming language.
 Unlike other, thin, bindings (see the [project's homepage][4] for a list),
@@ -52,6 +51,12 @@ Compared to C, OpenGLAda provides the features of the following C libraries:
 ## Installation
 
 OpenGLAda is designed to be used with the [Alire][29] package manager.
+For example:
+
+```
+alr with openglada --use=https://github.com/amengede/OpenGLAda.git --subdir=opengl
+```
+
 You can instead install the projects via `gprbuild` + `gprinstall`.
 This needs to be done for each project you want to use.
 
