@@ -16,33 +16,13 @@ package body GL.Objects.Buffers is
                       Number_Of_Bytes : Long;
                       Flags  : Storage_Usage_Bits) is
     use type Interfaces.C.unsigned;
-    Actual_Flags : Low_Level.Bitfield := 0;
+
+    function To_BitField is
+      new Ada.Unchecked_Conversion (Storage_Usage_Bits,
+                                    GL.Low_Level.Bitfield);
+      Actual_Flags : constant Low_Level.Bitfield := To_BitField (Flags)
+                                                    and 16#3c3#;
   begin
-
-    -- TODO: Neaten this!
-    if Flags.Map_Read then
-      Actual_Flags := Actual_Flags + Low_Level.Bitfield (1);
-    end if;
-
-    if Flags.Map_Write then
-      Actual_Flags := Actual_Flags + Low_Level.Bitfield (2);
-    end if;
-
-    if Flags.Map_Persistent then
-      Actual_Flags := Actual_Flags + Low_Level.Bitfield (64);
-    end if;
-
-    if Flags.Map_Coherent then
-      Actual_Flags := Actual_Flags + Low_Level.Bitfield (128);
-    end if;
-
-    if Flags.Dynamic_Storage then
-      Actual_Flags := Actual_Flags + Low_Level.Bitfield (256);
-    end if;
-
-    if Flags.Client_Storage then
-      Actual_Flags := Actual_Flags + Low_Level.Bitfield (512);
-    end if;
 
     API.Buffer_Storage (Target.Kind,
                         Low_Level.SizeIPtr (Number_Of_Bytes),

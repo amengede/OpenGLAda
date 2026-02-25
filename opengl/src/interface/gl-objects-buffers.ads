@@ -15,13 +15,15 @@ package GL.Objects.Buffers is
                          Dynamic_Draw, Dynamic_Read, Dynamic_Copy);
 
    type Storage_Usage_Bits is record
-     Map_Read           : Boolean := False; -- 1
-     Map_Write          : Boolean := False; -- 2
-     Map_Persistent     : Boolean := False; -- 64
-     Map_Coherent       : Boolean := False; -- 128
-     Dynamic_Storage    : Boolean := False; -- 256
-     Client_Storage     : Boolean := False; -- 512
+     Map_Read           : Boolean := False;
+     Map_Write          : Boolean := False;
+     Map_Persistent     : Boolean := False;
+     Map_Coherent       : Boolean := False;
+     Dynamic_Storage    : Boolean := False;
+     Client_Storage     : Boolean := False;
+     Unused             : Boolean := False;
    end record;
+   pragma Convention (C, Storage_Usage_Bits);
 
    type Map_Bits is record
       Read              : Boolean := False;
@@ -165,6 +167,17 @@ private
                          Dynamic_Read => 16#88E9#,
                          Dynamic_Copy => 16#88EA#);
    for Buffer_Usage'Size use Low_Level.Enum'Size;
+
+   for Storage_Usage_Bits use record
+     Map_Read         at 0 range  0 .. 0;
+     Map_Write        at 0 range  1 .. 1;
+     Map_Persistent   at 0 range  6 .. 6;
+     Map_Coherent     at 0 range  7 .. 7;
+     Dynamic_Storage  at 0 range  8 .. 8;
+     Client_Storage   at 0 range  9 .. 9;
+     Unused           at 0 range 10 .. 31;
+     end record;
+   for Storage_Usage_Bits'Size use Low_Level.Bitfield'Size;
 
    for Map_Bits use record
       Read              at 0 range 0 .. 0;
