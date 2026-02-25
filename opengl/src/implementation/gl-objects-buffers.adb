@@ -20,27 +20,27 @@ package body GL.Objects.Buffers is
 
     -- TODO: Neaten this!
     if Flags.Map_Read then
-      Actual_Flags := Actual_Flags or 1;
+      Actual_Flags := Actual_Flags + 1;
     end if;
 
     if Flags.Map_Write then
-      Actual_Flags := Actual_Flags or 2;
+      Actual_Flags := Actual_Flags + 2;
     end if;
 
     if Flags.Map_Persistent then
-      Actual_Flags := Actual_Flags or 64;
+      Actual_Flags := Actual_Flags + 64;
     end if;
 
     if Flags.Map_Coherent then
-      Actual_Flags := Actual_Flags or 128;
+      Actual_Flags := Actual_Flags + 128;
     end if;
 
     if Flags.Dynamic_Storage then
-      Actual_Flags := Actual_Flags or 256;
+      Actual_Flags := Actual_Flags + 256;
     end if;
 
     if Flags.Client_Storage then
-      Actual_Flags := Actual_Flags or 512;
+      Actual_Flags := Actual_Flags + 512;
     end if;
 
     API.Buffer_Storage (Target.Kind,
