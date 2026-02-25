@@ -15,6 +15,7 @@ package body GL.Objects.Buffers is
   procedure Allocate (Target : Buffer_Target;
                       Number_Of_Bytes : Long;
                       Flags  : Storage_Usage_Bits) is
+    use type Interfaces.C.unsigned;
     Actual_Flags : Low_Level.Bitfield := 0;
   begin
 
