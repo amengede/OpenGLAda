@@ -15,13 +15,34 @@ package body GL.Objects.Buffers is
   procedure Allocate (Target : Buffer_Target;
                       Number_Of_Bytes : Long;
                       Flags  : Storage_Usage_Bits) is
-    Actual_Flags : Low_Level.Bitfield := Flags.Map_Read
-                                         + Flags.Map_Write * 2
-                                         + Flags.Map_Persistent * 64
-                                         + Flags.Map_Coherent * 128
-                                         + Flags.Dynamic_Storage * 256
-                                         + Flags.Client_Storage * 512;
+    Actual_Flags : Low_Level.Bitfield := 0;
   begin
+
+    -- TODO: Neaten this!
+    if Flags.Map_Read then
+      Actual_Flags := Actual_Flags or 1;
+    end if;
+
+    if Flags.Map_Write then
+      Actual_Flags := Actual_Flags or 2;
+    end if;
+
+    if Flags.Map_Persistent then
+      Actual_Flags := Actual_Flags or 64;
+    end if;
+
+    if Flags.Map_Coherent then
+      Actual_Flags := Actual_Flags or 128;
+    end if;
+
+    if Flags.Dynamic_Storage then
+      Actual_Flags := Actual_Flags or 256;
+    end if;
+
+    if Flags.Client_Storage then
+      Actual_Flags := Actual_Flags or 512;
+    end if;
+
     API.Buffer_Storage (Target.Kind,
                         Low_Level.SizeIPtr (Number_Of_Bytes),
                         System.Null_Address,
